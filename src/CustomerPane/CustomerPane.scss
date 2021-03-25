@@ -1,0 +1,107 @@
+.CustomerPane {
+  width: calc(100% - 444px);
+  height: 100%;
+  background-color: gray;
+  display: flex;
+  align-items: center;
+
+  .phone {
+    height: 733px;
+  }
+  
+  .screen {
+    position: absolute;
+    background-color: white;
+    margin-left: 90px;
+    margin-bottom: 25px;
+    height: 670px;
+    width: 310px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .header {
+    height: 90px;
+    background-color: rgb(233, 233, 233);
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .square-container {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .square {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .square-text {
+    font-size: 12px;
+    margin-top: 5px; 
+  }
+  
+  .square-text:after {
+    content: " >";
+    color: gray;
+  }
+  
+  .body {
+    flex: 1;
+    overflow: scroll;
+  }
+  
+  .body-content {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  
+    div:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+  
+  .utterance-user {
+    background-color: rgb(52,206,91);
+    max-width: 200px;
+    align-self: flex-end;
+    padding: 10px;
+    color: white;
+    border-radius: 18px;
+  }
+  
+  .utterance-other {
+    background-color: lightgray;
+    max-width: 200px;
+    align-self: flex-start;
+    padding: 10px;
+    color: black;
+    border-radius: 18px;
+  }
+  
+  .footer {
+    padding: 10px;
+    box-sizing: border-box;
+    justify-self: flex-end;
+  }
+  
+  .input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    outline: 0;
+  }
+}

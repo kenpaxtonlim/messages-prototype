@@ -1,0 +1,130 @@
+$box-shadow: 0 0 2px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.15);
+
+.MessagesPane {
+  width: 444px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header {
+    height: 56px;
+    box-shadow: $box-shadow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    z-index: 1;
+  }
+  
+  .body {
+    flex: 1;
+    overflow: scroll;
+  }
+
+  .body-content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  
+    & > :not(:last-child) {
+      margin-bottom: 15px;
+    }
+  }
+
+  .picture {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e5f0ff;
+    color: #006aff;
+    font-weight: bold;
+    margin-right: 10px;
+    line-height: 0;
+  }
+
+  .row-user {
+    align-self: flex-end;
+  }
+
+  .row-other {
+    align-self: flex-start;
+    display: flex;
+  }
+
+  .utterance-user {
+    background-color: #006aff;
+    max-width: 300px;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    min-height: 44px;
+    line-height: 1.715;
+  }
+  
+  .utterance-other {
+    background-color: #f2f2f2;
+    max-width: 300px;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    min-height: 44px;
+    line-height: 1.715;
+  }
+
+  .input-container {
+    padding: 15px;
+    border-top: 1px solid lightgray;
+  }
+  
+  .input {
+    border: 0;
+    outline: 0;
+    width: 100%;
+  }
+
+  .suggestion-container {
+    border-top: 1px solid #006aff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .suggestion-header {
+    color: #006aff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    & > :first-child {
+      margin-right: 5px;
+    }
+  }
+
+  .suggestion-body {
+    
+  }
+
+  .suggestion-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+
+    .button {
+      background-color: #006aff;
+      padding: 10px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .sparkle {
+    height: 15px;
+  }
+}
