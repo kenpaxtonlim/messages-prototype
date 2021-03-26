@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/messages-prototype/static/css/main.0cf4c88c.chunk.css",
+    "main.js": "/messages-prototype/static/js/main.75a24d6a.chunk.js",
+    "main.js.map": "/messages-prototype/static/js/main.75a24d6a.chunk.js.map",
+    "runtime-main.js": "/messages-prototype/static/js/runtime-main.ab2b3ed4.js",
+    "runtime-main.js.map": "/messages-prototype/static/js/runtime-main.ab2b3ed4.js.map",
+    "static/js/2.439fde6d.chunk.js": "/messages-prototype/static/js/2.439fde6d.chunk.js",
+    "static/js/2.439fde6d.chunk.js.map": "/messages-prototype/static/js/2.439fde6d.chunk.js.map",
+    "static/js/3.5bdec789.chunk.js": "/messages-prototype/static/js/3.5bdec789.chunk.js",
+    "static/js/3.5bdec789.chunk.js.map": "/messages-prototype/static/js/3.5bdec789.chunk.js.map",
+    "index.html": "/messages-prototype/index.html",
+    "static/css/main.0cf4c88c.chunk.css.map": "/messages-prototype/static/css/main.0cf4c88c.chunk.css.map",
+    "static/js/2.439fde6d.chunk.js.LICENSE.txt": "/messages-prototype/static/js/2.439fde6d.chunk.js.LICENSE.txt",
+    "static/media/iphone.d3f4ec0d.png": "/messages-prototype/static/media/iphone.d3f4ec0d.png",
+    "static/media/sparkle.8272ace5.svg": "/messages-prototype/static/media/sparkle.8272ace5.svg",
+    "static/media/square.2d24f7b0.png": "/messages-prototype/static/media/square.2d24f7b0.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ab2b3ed4.js",
+    "static/js/2.439fde6d.chunk.js",
+    "static/css/main.0cf4c88c.chunk.css",
+    "static/js/main.75a24d6a.chunk.js"
+  ]
+}
