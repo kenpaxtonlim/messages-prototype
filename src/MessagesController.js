@@ -19,12 +19,16 @@ export default class MessagesController {
     makeAutoObservable(this);
   }
 
-  sendMessage = (text, speaker) =>{
+  sendMessage = (text, speaker) => {
     this.conversation = [ ...this.conversation, {text, speaker} ];
     if (speaker === 'customer') {
       this.suggestion = "I'm sorry to hear that. Please accept this coupon.";
     } else {
       this.suggestion = '';
     }
+  }
+
+  clearSuggestion = () => {
+    this.suggestion = '';
   }
 }

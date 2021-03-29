@@ -9,7 +9,12 @@ function App(props) {
   return (
     <div className="App">
       <CustomerPane conversation={controller.conversation} sendMessage={controller.sendMessage} />
-      <MessagesPane conversation={controller.conversation} sendMessage={controller.sendMessage} suggestion={controller.suggestion} />
+      <MessagesPane
+        conversation={controller.conversation}
+        sendMessage={controller.sendMessage}
+        suggestion={controller.suggestion}
+        clearSuggestion={controller.clearSuggestion}
+      />
     </div>
   );
 }
