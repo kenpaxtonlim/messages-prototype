@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { observer } from "mobx-react";
 import sparkle from './sparkle.svg';
 import './MessagesPane.scss';
+import MessageInput from '../MessageInput/MessageInput';
 
 function MessagesPane(props) {
   const { conversation, sendMessage, suggestion, clearSuggestion } = props;
@@ -32,13 +33,13 @@ function MessagesPane(props) {
         <div className="body-content">
           {conversation.map((utterance, index) => {
             return (
-              <div className={utterance.speaker === 'merchant' ? 'row-user' : 'row-other'}>
+              <div className={utterance.speaker === 'merchant' ? 'row-user' : 'row-other'} key={index}>
                 {utterance.speaker === 'customer' ?
                   <div className="picture">
                     JD
                   </div>
                 : null}
-                <div className={utterance.speaker === 'merchant' ? 'utterance-user' : 'utterance-other'} key={index}>
+                <div className={utterance.speaker === 'merchant' ? 'utterance-user' : 'utterance-other'}>
                   {utterance.text}
                 </div>
               </div>
@@ -76,20 +77,23 @@ function MessagesPane(props) {
           </div>
         </div>
         : null*/}
-        <div className="input-container">
-          <input
-            className="input"
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            placeholder="Send via text"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                sendMessage(message, 'merchant');
-                setMessage('');
-              }
-            }}
-          />
-        </div>
+        <MessageInput
+          value={message}
+          suggestionValue={message === 'this is a very long message i know but i want to test the' ? 'this is a very long message i know but i want to test the auto complete feature that looks awesome' : ''}
+          placeholder="Send via text"
+          onChange={e => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage(message, 'merchant');
+              setMessage('');
+            }
+            if (e.key === 'Tab') {
+              e.preventDefault();
+              setMessage('this is a very long message i know but i want to test the auto complete feature that looks awesome');
+            }
+          }}
+        />
       </div>
     </div>
   );

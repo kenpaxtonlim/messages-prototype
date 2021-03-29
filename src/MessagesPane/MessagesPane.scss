@@ -64,6 +64,7 @@ $box-shadow: 0 0 2px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     min-height: 44px;
     line-height: 1.715;
+    white-space: break-spaces;
   }
   
   .utterance-other {
@@ -74,6 +75,7 @@ $box-shadow: 0 0 2px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     min-height: 44px;
     line-height: 1.715;
+    white-space: break-spaces;
   }
 
   .utterance-suggestion {
