@@ -67,7 +67,8 @@ export default class MessagesController {
       body: JSON.stringify({
         user_input: previousCustomerUtterance,
         merchant_input: merchantInput,
-        mode: 'auto-complete'
+        mode: 'auto-complete',
+        auto_complete_length: 5,
       }),
     })
     .then(resp => resp.json())
