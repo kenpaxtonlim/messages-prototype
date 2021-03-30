@@ -3,10 +3,10 @@ import { observer } from "mobx-react";
 import './MessageInput.scss';
 
 function MessageInput(props) {
-  const { value, suggestionValue, placeholder, onChange, onKeyDown } = props;
-  let suggestion = suggestionValue === '' ? value : suggestionValue;
-  if (value.charAt(value.length - 1) === '\n') {
-    suggestion += ' ';
+  const { value, prediction, placeholder, onChange, onKeyDown, fetchAutoComplete } = props;
+  let predictionText = prediction === '' ? value : prediction;
+  if (value !== '' && value.charAt(value.length - 1) === '\n') {
+    predictionText += ' ';
   }
 
   const ref = useRef();
@@ -19,11 +19,23 @@ function MessageInput(props) {
         setRows(1);
       }
     }
-  }, [value, suggestionValue]);
+  }, [value, prediction]);
+
+  let timeout = useRef();
+  useEffect(() => {
+    if (value !== '') {
+      clearTimeout(timeout.current);
+      timeout.current = setTimeout(() => {
+        fetchAutoComplete(value);
+      }, 1000);
+    } else {
+      clearTimeout(timeout.current);
+    }
+  }, [value, fetchAutoComplete]);
 
   return (
     <div className="MessageInput">
-      <div className="MessageInput__suggestion" ref={ref}>{suggestion}</div>
+      <div className="MessageInput__suggestion" ref={ref}>{predictionText}</div>
       <textarea
         className="MessageInput__input"
         rows={rows}

@@ -1,6 +1,6 @@
 {
   "homepage": "http://kenpaxtonlim.github.io/messages-prototype",
-  "name": "messages-autocomplete",
+  "name": "messages-prototype",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

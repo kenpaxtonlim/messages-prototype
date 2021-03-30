@@ -5,7 +5,7 @@ import './MessagesPane.scss';
 import MessageInput from '../MessageInput/MessageInput';
 
 function MessagesPane(props) {
-  const { conversation, sendMessage, suggestion, clearSuggestion } = props;
+  const { conversation, sendMessage, autoReply, autoComplete, fetchAutoComplete } = props;
   const [message, setMessage] = useState('');
 
   const bodyRef = useRef();
@@ -17,12 +17,7 @@ function MessagesPane(props) {
         top: bodyRef.current.scrollHeight
       });
     }
-  }, [conversation]);
-  useEffect(() => {
-    if (message !== '') {
-      clearSuggestion();
-    }
-  }, [message, clearSuggestion]);
+  }, [conversation, autoReply]);
 
   return (
     <div className="MessagesPane">
@@ -45,18 +40,18 @@ function MessagesPane(props) {
               </div>
             )
           })}
-          {suggestion !== '' ?
+          {autoReply !== '' ?
           <div className="row-user">
             <div className="utterance-suggestion">
               <div className="utterance-suggestion-header">
                 <img src={sparkle} alt="Suggestion" className="sparkle" />
                 Smart Reply
               </div>
-              {suggestion}
+              {autoReply}
             </div>
             <div className="utterance-send-status">
               {'Not delivered. '}
-              <span className="underline" onClick={() => sendMessage(suggestion, 'merchant')}>Send</span>
+              <span className="underline" onClick={() => sendMessage(autoReply, 'merchant')}>Send</span>
             </div>
           </div>
         : null}
@@ -79,7 +74,8 @@ function MessagesPane(props) {
         : null*/}
         <MessageInput
           value={message}
-          suggestionValue={message === 'this is a very long message i know but i want to test the' ? 'this is a very long message i know but i want to test the auto complete feature that looks awesome' : ''}
+          prediction={message !== '' && autoComplete.startsWith(message) ? autoComplete : ''}
+          fetchAutoComplete={fetchAutoComplete}
           placeholder="Send via text"
           onChange={e => setMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -90,7 +86,7 @@ function MessagesPane(props) {
             }
             if (e.key === 'Tab') {
               e.preventDefault();
-              setMessage('this is a very long message i know but i want to test the auto complete feature that looks awesome');
+              setMessage(autoComplete);
             }
           }}
         />

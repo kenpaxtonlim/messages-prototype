@@ -2,7 +2,8 @@ import { makeAutoObservable } from "mobx";
 
 export default class MessagesController {
   conversation = [];
-  suggestion = "";
+  autoReply = '';
+  autoComplete = '';
 
   constructor() {
     this.conversation = [
@@ -22,13 +23,59 @@ export default class MessagesController {
   sendMessage = (text, speaker) => {
     this.conversation = [ ...this.conversation, {text, speaker} ];
     if (speaker === 'customer') {
-      this.suggestion = "I'm sorry to hear that. Please accept this coupon.";
+      this.fetchAutoReply(text);
     } else {
-      this.suggestion = '';
+      this.autoReply = '';
     }
   }
 
-  clearSuggestion = () => {
-    this.suggestion = '';
+  fetchAutoReply = (customerInput) => {
+    fetch('http://localhost:9999/post/feedback_bot', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_input: customerInput,
+        mode: 'auto-reply'
+      }),
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      const predictions = data.result.prediction;
+      if (predictions && predictions.length > 0) {
+        this.autoReply = predictions[0];
+      }
+    });
+  }
+
+  fetchAutoComplete = (merchantInput) => {
+    let previousCustomerUtterance = '';
+    if (this.conversation.length > 0) {
+      const previousUtterance = this.conversation[this.conversation.length - 1];
+      if (previousUtterance.speaker === 'customer') {
+        previousCustomerUtterance = previousUtterance.text;
+      }
+    }
+    fetch('http://localhost:9999/post/feedback_bot', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_input: previousCustomerUtterance,
+        merchant_input: merchantInput,
+        mode: 'auto-complete'
+      }),
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      const predictions = data.result.prediction;
+      if (predictions && predictions.length > 0) {
+        this.autoComplete = predictions[0];
+      }
+    });
   }
 }

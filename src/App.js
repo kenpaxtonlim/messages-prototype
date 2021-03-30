@@ -12,8 +12,9 @@ function App(props) {
       <MessagesPane
         conversation={controller.conversation}
         sendMessage={controller.sendMessage}
-        suggestion={controller.suggestion}
-        clearSuggestion={controller.clearSuggestion}
+        autoReply={controller.autoReply}
+        autoComplete={controller.autoComplete}
+        fetchAutoComplete={controller.fetchAutoComplete}
       />
     </div>
   );
