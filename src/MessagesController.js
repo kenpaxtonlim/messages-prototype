@@ -30,7 +30,7 @@ export default class MessagesController {
   }
 
   fetchAutoReply = (customerInput) => {
-    fetch('http://localhost:9999/post/feedback_bot', {
+    fetch('http://3.142.194.41/post/auto_complete_service', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -58,7 +58,7 @@ export default class MessagesController {
         previousCustomerUtterance = previousUtterance.text;
       }
     }
-    fetch('http://localhost:9999/post/feedback_bot', {
+    fetch('http://3.142.194.41/post/auto_complete_service', {
       method: 'POST',
       mode: 'cors',
       headers: {
