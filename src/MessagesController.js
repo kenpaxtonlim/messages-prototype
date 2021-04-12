@@ -62,7 +62,7 @@ export default class MessagesController {
       },
       body: JSON.stringify({
         user_input: customerInput,
-        mode: 'auto-reply'
+        mode: 'auto-reply',
       }),
     })
     .then(resp => resp.json())
@@ -93,6 +93,7 @@ export default class MessagesController {
         merchant_input: merchantInput,
         mode: 'auto-complete',
         auto_complete_length: 5,
+        use_trie: true,
       }),
     })
     .then(resp => resp.json())
