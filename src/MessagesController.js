@@ -8,13 +8,37 @@ export default class MessagesController {
   constructor() {
     this.conversation = [
       {
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        speaker: 'merchant',
+      },
+      {
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        speaker: 'customer',
+      },
+      {
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        speaker: 'merchant',
+      },
+      {
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        speaker: 'customer',
+      },
+      {
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        speaker: 'merchant',
+      },
+      {
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        speaker: 'customer',
+      },
+      {
         text: 'Hello',
         speaker: 'merchant',
       },
       {
-        text: 'How are you?',
+        text: 'Hey there',
         speaker: 'customer',
-      }
+      },
     ];
 
     makeAutoObservable(this);
@@ -30,7 +54,7 @@ export default class MessagesController {
   }
 
   fetchAutoReply = (customerInput) => {
-    fetch('http://3.142.194.41/post/auto_complete_service', {
+    fetch('http://3.142.194.41:80/post/auto_complete_service', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -58,7 +82,7 @@ export default class MessagesController {
         previousCustomerUtterance = previousUtterance.text;
       }
     }
-    fetch('http://3.142.194.41/post/auto_complete_service', {
+    fetch('http://3.142.194.41:80/post/auto_complete_service', {
       method: 'POST',
       mode: 'cors',
       headers: {
