@@ -54,7 +54,7 @@ export default class MessagesController {
   }
 
   fetchAutoReply = (customerInput) => {
-    fetch('http://3.142.194.41:80/post/auto_complete_service', {
+    fetch('https://corgi.mysquarephone.com/post/auto_complete_service', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -82,7 +82,7 @@ export default class MessagesController {
         previousCustomerUtterance = previousUtterance.text;
       }
     }
-    fetch('http://3.142.194.41:80/post/auto_complete_service', {
+    fetch('https://corgi.mysquarephone.com/post/auto_complete_service', {
       method: 'POST',
       mode: 'cors',
       headers: {
