@@ -50,6 +50,7 @@ export default class MessagesController {
       this.fetchAutoReply(text);
     } else {
       this.autoReply = '';
+      this.autoComplete = '';
     }
   }
 
@@ -103,5 +104,13 @@ export default class MessagesController {
         this.autoComplete = predictions[0];
       }
     });
+  }
+
+  clearAutoReply = () => {
+    this.autoReply = '';
+  }
+
+  clearAutoComplete = () => {
+    this.autoComplete = '';
   }
 }

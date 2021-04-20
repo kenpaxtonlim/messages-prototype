@@ -5,7 +5,7 @@ import './MessagesPane.scss';
 import MessageInput from '../MessageInput/MessageInput';
 
 function MessagesPane(props) {
-  const { conversation, sendMessage, autoReply, autoComplete, fetchAutoComplete } = props;
+  const { conversation, sendMessage, autoReply, autoComplete, fetchAutoComplete, clearAutoComplete } = props;
   const [message, setMessage] = useState('');
 
   const bodyRef = useRef();
@@ -87,6 +87,9 @@ function MessagesPane(props) {
             if (e.key === 'Tab') {
               e.preventDefault();
               setMessage(autoComplete);
+            }
+            if (e.key === 'Backspace') {
+              clearAutoComplete();
             }
           }}
         />

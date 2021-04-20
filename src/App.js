@@ -15,6 +15,7 @@ function App(props) {
         autoReply={controller.autoReply}
         autoComplete={controller.autoComplete}
         fetchAutoComplete={controller.fetchAutoComplete}
+        clearAutoComplete={controller.clearAutoComplete}
       />
     </div>
   );
