@@ -47,6 +47,7 @@ export default class MessagesController {
   sendMessage = (text, speaker) => {
     this.conversation = [ ...this.conversation, {text, speaker} ];
     if (speaker === 'customer') {
+      this.autoReply = '';
       this.fetchAutoReply(text);
     } else {
       this.autoReply = '';
