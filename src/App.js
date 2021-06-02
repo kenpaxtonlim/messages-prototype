@@ -16,6 +16,8 @@ function App(props) {
         autoComplete={controller.autoComplete}
         fetchAutoComplete={controller.fetchAutoComplete}
         clearAutoComplete={controller.clearAutoComplete}
+        suggestedActions={controller.suggestedActions}
+        clearSuggestedActions={controller.clearSuggestedActions}
       />
     </div>
   );

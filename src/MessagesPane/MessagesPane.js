@@ -1,11 +1,24 @@
 import { useRef, useState, useEffect } from 'react';
 import { observer } from "mobx-react";
-import sparkle from './sparkle.svg';
 import './MessagesPane.scss';
 import MessageInput from '../MessageInput/MessageInput';
+import AppointmentIcon from '../svg/AppointmentIcon';
+import InvoiceIcon from '../svg/InvoiceIcon';
+import PaymentIcon from '../svg/PaymentIcon';
+import PhotoIcon from '../svg/PhotoIcon';
+import RefundIcon from '../svg/RefundIcon';
 
 function MessagesPane(props) {
-  const { conversation, sendMessage, autoReply, autoComplete, fetchAutoComplete, clearAutoComplete } = props;
+  const {
+    conversation,
+    sendMessage,
+    autoReply,
+    autoComplete,
+    fetchAutoComplete,
+    clearAutoComplete,
+    suggestedActions,
+    clearSuggestedActions,
+  } = props;
   const [message, setMessage] = useState('');
 
   const bodyRef = useRef();
@@ -17,7 +30,153 @@ function MessagesPane(props) {
         top: bodyRef.current.scrollHeight
       });
     }
-  }, [conversation, autoReply]);
+  }, [bodyRef, conversation, autoReply, suggestedActions]);
+
+  let suggestionHeading = '';
+  if (autoReply && suggestedActions.length === 0) {
+    suggestionHeading = 'Suggested Reply';
+  } else if ((autoReply && suggestedActions.length > 0) || suggestedActions.length > 1) {
+    suggestionHeading = 'Suggested Actions';
+  } else if (suggestedActions.length === 1) {
+    suggestionHeading = 'Suggested Action';
+  }
+
+  let suggestionComponent = null;
+  if (autoReply || suggestedActions) {
+    let suggestions = [];
+    suggestedActions.forEach((suggestion, index) => {
+      switch (suggestion) {
+        case 'Request Payment':
+          suggestions.push(
+            <div className="utterance-suggestion" key={index}>
+              <div
+                className="utterance-suggestion-content"
+                onClick={() => {
+                  clearSuggestedActions();
+                }}
+              >
+                <div className="suggestion-icon">
+                  <PaymentIcon />
+                </div>
+                {suggestion}
+              </div>
+            </div>
+          )
+          break;
+        case 'Send Invoice':
+          suggestions.push(
+            <div className="utterance-suggestion" key={index}>
+              <div
+                className="utterance-suggestion-content"
+                onClick={() => {
+                  clearSuggestedActions();
+                }}
+              >
+                <div className="suggestion-icon">
+                  <InvoiceIcon />
+                </div>
+                {suggestion}
+              </div>
+            </div>
+          )
+          break;
+        case 'Issue Refund':
+          suggestions.push(
+            <div className="utterance-suggestion" key={index}>
+              <div
+                className="utterance-suggestion-content"
+                onClick={() => {
+                  clearSuggestedActions();
+                }}
+              >
+                <div className="suggestion-icon">
+                  <RefundIcon />
+                </div>
+                {suggestion}
+              </div>
+            </div>
+          )
+          break;
+        case 'Send Photo':
+          suggestions.push(
+            <div className="utterance-suggestion" key={index}>
+              <div
+                className="utterance-suggestion-content"
+                onClick={() => {
+                  clearSuggestedActions();
+                }}
+              >
+                <div className="suggestion-icon">
+                  <PhotoIcon />
+                </div>
+                {suggestion}
+              </div>
+            </div>
+          )
+          break;
+        case 'Send Booking Site':
+          suggestions.push(
+            <div className="utterance-suggestion" key={index}>
+              <div
+                className="utterance-suggestion-content"
+                onClick={() => {
+                  clearSuggestedActions();
+                }}
+              >
+                <div className="suggestion-icon">
+                  <AppointmentIcon />
+                </div>
+                {suggestion}
+              </div>
+            </div>
+          )
+          break;
+          case 'Create Appointment':
+          suggestions.push(
+            <div className="utterance-suggestion" key={index}>
+              <div
+                className="utterance-suggestion-content"
+                onClick={() => {
+                  clearSuggestedActions();
+                }}
+              >
+                <div className="suggestion-icon">
+                  <AppointmentIcon />
+                </div>
+                {suggestion}
+              </div>
+            </div>
+          )
+          break;
+        default:
+      }
+    });
+    if (autoReply) {
+      suggestions.push(
+        <div className="utterance-suggestion" key="autoreply">
+          <div
+            className="utterance-suggestion-content"
+            onClick={() => {
+              setMessage(autoReply);
+              clearSuggestedActions();
+            }}
+            title="Click to edit"
+          >
+            {autoReply}
+          </div>
+        </div>
+      )
+    }
+
+    suggestionComponent = (
+      <div className="row-user row-suggestion">
+        <div className="row-suggestion-heading">
+          {suggestionHeading}
+        </div>
+        {suggestions}
+      </div>
+    );
+  }
 
   return (
     <div className="MessagesPane">
@@ -40,21 +199,7 @@ function MessagesPane(props) {
               </div>
             )
           })}
-          {autoReply !== '' ?
-          <div className="row-user">
-            <div className="utterance-suggestion">
-              <div className="utterance-suggestion-header">
-                <img src={sparkle} alt="Suggestion" className="sparkle" />
-                Smart Reply
-              </div>
-              {autoReply}
-            </div>
-            <div className="utterance-send-status">
-              {'Not delivered. '}
-              <span className="underline" onClick={() => sendMessage(autoReply, 'merchant')}>Send</span>
-            </div>
-          </div>
-        : null}
+          {suggestionComponent}
         </div>
       </div>
       <div className="footer">
@@ -90,6 +235,9 @@ function MessagesPane(props) {
             }
             if (e.key === 'Backspace') {
               clearAutoComplete();
+              if (message === '') {
+                clearSuggestedActions();
+              }
             }
           }}
         />
