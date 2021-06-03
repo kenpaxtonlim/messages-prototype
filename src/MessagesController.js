@@ -5,6 +5,7 @@ export default class MessagesController {
   autoReply = '';
   autoComplete = '';
   suggestedActions = [];
+  modalMode = 'NONE';
 
   isAutoReply = true;
   isAutoComplete = true;
@@ -50,20 +51,67 @@ export default class MessagesController {
     makeAutoObservable(this);
   }
 
-  sendMessage = (text, speaker) => {
-    this.conversation = [ ...this.conversation, {text, speaker} ];
+  sendMessage = (text, speaker, metadata) => {
+    this.conversation = [ ...this.conversation, {text, speaker, metadata} ];
     if (speaker === 'customer') {
       this.autoReply = '';
       this.fetchAutoReply(text);
     } else {
       this.autoReply = '';
       this.autoComplete = '';
+      if (!metadata) {
+        this.fetchAutoReply(text, true);
+      }
     }
   }
 
-  fetchAutoReply = (customerInput) => {
+  sendAction = () => {
+    switch(this.modalMode) {
+      case 'INVOICE':
+        this.sendMessage(
+          'Square has requested a $100 invoice. View it at https://sq.invoice.com/QK12D10E',
+          'merchant',
+          {
+            event: this.modalMode,
+          }
+        );
+      break;
+      case 'PAYMENT':
+        this.sendMessage(
+          'Square has requested a payment of $100. View it at https://sq.checkout.com/QK12D10E',
+          'merchant',
+          {
+            event: this.modalMode,
+          }
+        );
+        break;
+      case 'REFUND':
+        this.sendMessage(
+          'Square has issued you a refund of $100. View it at https://sq.receipt.com/QK12D10E',
+          'merchant',
+          {
+            event: this.modalMode,
+          }
+        );
+        break;
+      case 'APPOINTMENT':
+        this.sendMessage(
+          'You have booked an appointment with Square on May 20, 2.00pm. View it at https://sq.appointment.com/QK12D10E',
+          'merchant',
+          {
+            event: this.modalMode,
+          }
+        );
+        break;
+      default:
+    }
+
+    this.modalMode = 'NONE';
+  }
+
+  fetchAutoReply = (customerInput, skipAutoReply) => {
     this.suggestedActions = [];
-    if (this.isAutoReply) {
+    if (this.isAutoReply && !skipAutoReply) {
       fetch('https://corgi.mysquarephone.com/post/auto_complete_service', {
         method: 'POST',
         mode: 'cors',
@@ -166,5 +214,9 @@ export default class MessagesController {
   clearSuggestedActions = () => {
     this.suggestedActions = [];
     this.autoReply = '';
+  }
+
+  setModal = (modal) => {
+    this.modalMode = modal;
   }
 }

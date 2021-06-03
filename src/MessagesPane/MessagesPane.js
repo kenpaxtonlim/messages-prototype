@@ -7,6 +7,7 @@ import InvoiceIcon from '../svg/InvoiceIcon';
 import PaymentIcon from '../svg/PaymentIcon';
 import PhotoIcon from '../svg/PhotoIcon';
 import RefundIcon from '../svg/RefundIcon';
+import EventCard from '../EventCard/EventCard';
 
 function MessagesPane(props) {
   const {
@@ -18,6 +19,7 @@ function MessagesPane(props) {
     clearAutoComplete,
     suggestedActions,
     clearSuggestedActions,
+    setModal,
   } = props;
   const [message, setMessage] = useState('');
 
@@ -42,7 +44,7 @@ function MessagesPane(props) {
   }
 
   let suggestionComponent = null;
-  if (autoReply || suggestedActions) {
+  if (autoReply !== '' || suggestedActions.length !== 0) {
     let suggestions = [];
     suggestedActions.forEach((suggestion, index) => {
       switch (suggestion) {
@@ -52,6 +54,7 @@ function MessagesPane(props) {
               <div
                 className="utterance-suggestion-content"
                 onClick={() => {
+                  setModal('PAYMENT');
                   clearSuggestedActions();
                 }}
               >
@@ -69,6 +72,7 @@ function MessagesPane(props) {
               <div
                 className="utterance-suggestion-content"
                 onClick={() => {
+                  setModal('INVOICE');
                   clearSuggestedActions();
                 }}
               >
@@ -86,6 +90,7 @@ function MessagesPane(props) {
               <div
                 className="utterance-suggestion-content"
                 onClick={() => {
+                  setModal('REFUND');
                   clearSuggestedActions();
                 }}
               >
@@ -103,6 +108,7 @@ function MessagesPane(props) {
               <div
                 className="utterance-suggestion-content"
                 onClick={() => {
+                  setModal('PHOTO');
                   clearSuggestedActions();
                 }}
               >
@@ -137,6 +143,7 @@ function MessagesPane(props) {
               <div
                 className="utterance-suggestion-content"
                 onClick={() => {
+                  setModal('APPOINTMENT');
                   clearSuggestedActions();
                 }}
               >
@@ -193,9 +200,11 @@ function MessagesPane(props) {
                     JD
                   </div>
                 : null}
-                <div className={utterance.speaker === 'merchant' ? 'utterance-user' : 'utterance-other'}>
-                  {utterance.text}
-                </div>
+                {utterance.metadata ? <EventCard event={utterance.metadata.event} /> : (
+                  <div className={utterance.speaker === 'merchant' ? 'utterance-user' : 'utterance-other'}>
+                    {utterance.text}
+                  </div>
+                )}
               </div>
             )
           })}
