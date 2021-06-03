@@ -1,7 +1,7 @@
 .EventCard {
   border-radius: 22px;
   border: 1px solid lightgray;
-  padding: 20px;
+  padding: 15px;
   min-width: 270px;
 }
 
@@ -42,4 +42,32 @@
   color: #005AD9;
   border-radius: 6px;
   cursor: pointer;
+}
+
+.EventCard-photos {
+  display: flex;
+  flex-direction: row;
+}
+
+.EventCard-photo {
+  width: 100px;
+  height: 130px;
+  border-radius: 22px;
+  background-size: cover;
+
+  &:not(:last-child) {
+    margin-right: 8px;
+  }
+}
+
+.EventCard-photo-1 {
+  background-image: url('https://mymodernmet.com/wp/wp-content/uploads/2020/09/milena-hairstyles-3.jpg');
+}
+
+.EventCard-photo-2 {
+  background-image: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/self-portrait-bks-m-rs20-4387-1580141121.jpg');
+}
+
+.EventCard-photo-3 {
+  background-image: url('https://static.onecms.io/wp-content/uploads/sites/23/2015/02/05/half-crown-braid.jpg');
 }

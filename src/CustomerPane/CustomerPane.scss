@@ -92,6 +92,11 @@
     white-space: pre-wrap;
     overflow-wrap: break-word;
   }
+
+  .utterance-user-photo {
+    max-width: 200px;
+    align-self: flex-start;
+  }
   
   .footer {
     padding: 10px;

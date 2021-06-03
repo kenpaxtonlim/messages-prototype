@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import phone from './iphone.png';
 import square from './square.png';
 import './CustomerPane.scss';
+import EventCard from '../EventCard/EventCard';
 
 function CustomerPane(props) {
   const { conversation, sendMessage } = props;
@@ -32,11 +33,21 @@ function CustomerPane(props) {
         <div className="body" ref={bodyRef}>
           <div className="body-content">
             {conversation.map((utterance, index) => {
-              return (
-                <div className={utterance.speaker === 'customer' ? 'utterance-user' : 'utterance-other'} key={index}>
+              let content = null;
+              if (utterance.metadata?.event === 'PHOTO') {
+                content = (
+                  <div className="utterance-user-photo">
+                    <EventCard event={utterance.metadata.event} />
+                  </div>
+                );
+              } else {
+                content = (
+                  <div className={utterance.speaker === 'customer' ? 'utterance-user' : 'utterance-other'} key={index}>
                   {utterance.text}
-                </div>
-              )
+                  </div>
+                );
+              }
+              return content;
             })}
           </div>
         </div>

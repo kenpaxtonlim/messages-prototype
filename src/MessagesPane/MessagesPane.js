@@ -108,7 +108,7 @@ function MessagesPane(props) {
               <div
                 className="utterance-suggestion-content"
                 onClick={() => {
-                  setModal('PHOTO');
+                  sendMessage('', 'merchant', { event: 'PHOTO' });
                   clearSuggestedActions();
                 }}
               >
@@ -126,6 +126,7 @@ function MessagesPane(props) {
               <div
                 className="utterance-suggestion-content"
                 onClick={() => {
+                  sendMessage('Book an appointment with us https://sq.appt.com/booking/FJ219DW', 'merchant');
                   clearSuggestedActions();
                 }}
               >
@@ -193,18 +194,28 @@ function MessagesPane(props) {
       <div className="body" ref={bodyRef}>
         <div className="body-content">
           {conversation.map((utterance, index) => {
+            let displayPic = null;
+            if (utterance.speaker === 'customer') {
+              displayPic = (
+                <div className="picture">
+                  JD
+                </div>
+              );
+            }
+            let content = null;
+            if (utterance.metadata) {
+              content = <EventCard event={utterance.metadata.event} />;
+            } else {
+              content = (
+                <div className={utterance.speaker === 'merchant' ? 'utterance-user' : 'utterance-other'}>
+                  {utterance.text}
+                </div>
+              );
+            }
             return (
               <div className={utterance.speaker === 'merchant' ? 'row-user' : 'row-other'} key={index}>
-                {utterance.speaker === 'customer' ?
-                  <div className="picture">
-                    JD
-                  </div>
-                : null}
-                {utterance.metadata ? <EventCard event={utterance.metadata.event} /> : (
-                  <div className={utterance.speaker === 'merchant' ? 'utterance-user' : 'utterance-other'}>
-                    {utterance.text}
-                  </div>
-                )}
+                {displayPic}
+                {content}
               </div>
             )
           })}

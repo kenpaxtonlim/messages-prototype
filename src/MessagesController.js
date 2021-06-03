@@ -5,6 +5,7 @@ export default class MessagesController {
   autoReply = '';
   autoComplete = '';
   suggestedActions = [];
+  mostRecentAction = 'NONE';
   modalMode = 'NONE';
 
   isAutoReply = true;
@@ -53,6 +54,9 @@ export default class MessagesController {
 
   sendMessage = (text, speaker, metadata) => {
     this.conversation = [ ...this.conversation, {text, speaker, metadata} ];
+    if (metadata?.event) {
+      this.mostRecentAction = metadata.event;
+    }
     if (speaker === 'customer') {
       this.autoReply = '';
       this.fetchAutoReply(text);
@@ -96,7 +100,7 @@ export default class MessagesController {
         break;
       case 'APPOINTMENT':
         this.sendMessage(
-          'You have booked an appointment with Square on May 20, 2.00pm. View it at https://sq.appointment.com/QK12D10E',
+          'You have booked an appointment with Square on May 20, 2.00pm. View it at https://sq.appt.com/QK12D10E',
           'merchant',
           {
             event: this.modalMode,
@@ -132,19 +136,20 @@ export default class MessagesController {
       });
     }
     if (this.isSuggestAction) {
-      if (customerInput.search(/\$/g) !== -1) {
+      const inputLowercase = customerInput.toLowerCase();
+      if ((inputLowercase.search(/\$/g) !== -1 || inputLowercase.search('payment') !== -1) && this.mostRecentAction !== 'PAYMENT') {
         this.suggestedActions.push('Request Payment');
       }
-      if (customerInput.toLowerCase().search('invoice') !== -1) {
+      if (inputLowercase.search('invoice') !== -1 && this.mostRecentAction !== 'INVOICE') {
         this.suggestedActions.push('Send Invoice');
       }
-      if (customerInput.toLowerCase().search('refund') !== -1) {
+      if (inputLowercase.search('refund') !== -1  && this.mostRecentAction !== 'REFUND') {
         this.suggestedActions.push('Issue Refund');
       }
-      if (customerInput.toLowerCase().search('photo') !== -1) {
+      if (inputLowercase.search('photo') !== -1 && this.mostRecentAction !== 'PHOTO') {
         this.suggestedActions.push('Send Photo');
       }
-      if (customerInput.toLowerCase().search('appointment') !== -1) {
+      if (inputLowercase.search('appointment') !== -1 && this.mostRecentAction !== 'APPOINTMENT') {
         this.suggestedActions.push('Send Booking Site');
         this.suggestedActions.push('Create Appointment');
       }
@@ -184,19 +189,20 @@ export default class MessagesController {
     }
     if (this.isSuggestAction) {
       this.suggestedActions = [];
-      if (merchantInput.search(/\$/g) !== -1) {
+      const inputLowercase = merchantInput.toLowerCase();
+      if ((inputLowercase.search(/\$/g) !== -1 || inputLowercase.search('payment') !== -1) && this.mostRecentAction !== 'PAYMENT') {
         this.suggestedActions.push('Request Payment');
       }
-      if (merchantInput.toLowerCase().search('invoice') !== -1) {
+      if (inputLowercase.search('invoice') !== -1 && this.mostRecentAction !== 'INVOICE') {
         this.suggestedActions.push('Send Invoice');
       }
-      if (merchantInput.toLowerCase().search('refund') !== -1) {
+      if (inputLowercase.search('refund') !== -1  && this.mostRecentAction !== 'REFUND') {
         this.suggestedActions.push('Issue Refund');
       }
-      if (merchantInput.toLowerCase().search('photo') !== -1) {
+      if (inputLowercase.search('photo') !== -1 && this.mostRecentAction !== 'PHOTO') {
         this.suggestedActions.push('Send Photo');
       }
-      if (merchantInput.toLowerCase().search('appointment') !== -1) {
+      if (inputLowercase.search('appointment') !== -1 && this.mostRecentAction !== 'APPOINTMENT') {
         this.suggestedActions.push('Send Booking Site');
         this.suggestedActions.push('Create Appointment');
       }

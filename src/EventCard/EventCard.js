@@ -36,20 +36,30 @@ function EventCard(props) {
     default:
   }
 
-  return (
-    <div className="EventCard">
-      <div className="EventCard-top">
-        <div className="EventCard-icon">{icon}</div>
-        <div className="EventCard-header">
-          <div className="EventCard-title">{title}</div>
-          <div className="EventCard-subtitle">XXXXXXXXXXX</div>
+  if (event === 'PHOTO') {
+    return (
+      <div className="EventCard-photos">
+        <div className="EventCard-photo EventCard-photo-1" />
+        <div className="EventCard-photo EventCard-photo-2" />
+        <div className="EventCard-photo EventCard-photo-3" />
+      </div>
+    )
+  } else {
+    return (
+      <div className="EventCard">
+        <div className="EventCard-top">
+          <div className="EventCard-icon">{icon}</div>
+          <div className="EventCard-header">
+            <div className="EventCard-title">{title}</div>
+            <div className="EventCard-subtitle">XXXXXXXXXXX</div>
+          </div>
+        </div>
+        <div className="EventCard-bottom">
+          {button}
         </div>
       </div>
-      <div className="EventCard-bottom">
-        {button}
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default observer(EventCard);
