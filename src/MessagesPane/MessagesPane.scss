@@ -126,6 +126,10 @@ $box-shadow: 0 0 2px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.15);
     }
   }
 
+  .utterance-suggestion-content-action {
+    max-height: 44px;
+  }
+
   .underline {
     font-size: 12px;
     text-decoration: underline;

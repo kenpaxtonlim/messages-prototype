@@ -1,8 +1,9 @@
-import { observer } from "mobx-react";
-import AppointmentIcon from "../svg/AppointmentIcon";
-import InvoiceIcon from "../svg/InvoiceIcon";
-import PaymentIcon from "../svg/PaymentIcon";
-import RefundIcon from "../svg/RefundIcon";
+import { observer } from 'mobx-react';
+import AppointmentIcon from '../svg/AppointmentIcon';
+import CouponIcon from '../svg/CouponIcon';
+import InvoiceIcon from '../svg/InvoiceIcon';
+import PaymentIcon from '../svg/PaymentIcon';
+import RefundIcon from '../svg/RefundIcon';
 import './EventCard.scss';
 
 function EventCard(props) {
@@ -12,7 +13,7 @@ function EventCard(props) {
   let button = 'View invoice';
   let icon = null;
 
-  switch(event) {
+  switch (event) {
     case 'INVOICE':
       title = 'New invoice';
       button = 'View invoice';
@@ -33,6 +34,11 @@ function EventCard(props) {
       button = 'View appointment';
       icon = <AppointmentIcon />;
       break;
+    case 'COUPON':
+      title = '$10 off your next purchase';
+      button = 'View coupon';
+      icon = <CouponIcon />;
+      break;
     default:
   }
 
@@ -43,7 +49,7 @@ function EventCard(props) {
         <div className="EventCard-photo EventCard-photo-2" />
         <div className="EventCard-photo EventCard-photo-3" />
       </div>
-    )
+    );
   } else {
     return (
       <div className="EventCard">
@@ -54,9 +60,7 @@ function EventCard(props) {
             <div className="EventCard-subtitle">XXXXXXXXXXX</div>
           </div>
         </div>
-        <div className="EventCard-bottom">
-          {button}
-        </div>
+        <div className="EventCard-bottom">{button}</div>
       </div>
     );
   }

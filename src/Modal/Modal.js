@@ -18,6 +18,9 @@ function Modal(props) {
     case 'APPOINTMENT':
       title = 'Create Appointment';
       break;
+    case 'COUPON':
+      title = 'Send Coupon';
+      break;
       default:
   }
 

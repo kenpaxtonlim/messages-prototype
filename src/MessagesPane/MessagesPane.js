@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react';
 import './MessagesPane.scss';
 import MessageInput from '../MessageInput/MessageInput';
 import AppointmentIcon from '../svg/AppointmentIcon';
@@ -8,6 +8,7 @@ import PaymentIcon from '../svg/PaymentIcon';
 import PhotoIcon from '../svg/PhotoIcon';
 import RefundIcon from '../svg/RefundIcon';
 import EventCard from '../EventCard/EventCard';
+import CouponIcon from '../svg/CouponIcon';
 
 function MessagesPane(props) {
   const {
@@ -29,7 +30,7 @@ function MessagesPane(props) {
       bodyRef.current.scroll({
         behavior: 'smooth',
         left: 0,
-        top: bodyRef.current.scrollHeight
+        top: bodyRef.current.scrollHeight,
       });
     }
   }, [bodyRef, conversation, autoReply, suggestedActions]);
@@ -37,7 +38,10 @@ function MessagesPane(props) {
   let suggestionHeading = '';
   if (autoReply && suggestedActions.length === 0) {
     suggestionHeading = 'Suggested Reply';
-  } else if ((autoReply && suggestedActions.length > 0) || suggestedActions.length > 1) {
+  } else if (
+    (autoReply && suggestedActions.length > 0) ||
+    suggestedActions.length > 1
+  ) {
     suggestionHeading = 'Suggested Actions';
   } else if (suggestedActions.length === 1) {
     suggestionHeading = 'Suggested Action';
@@ -52,7 +56,7 @@ function MessagesPane(props) {
           suggestions.push(
             <div className="utterance-suggestion" key={index}>
               <div
-                className="utterance-suggestion-content"
+                className="utterance-suggestion-content utterance-suggestion-content-action"
                 onClick={() => {
                   setModal('PAYMENT');
                   clearSuggestedActions();
@@ -64,13 +68,13 @@ function MessagesPane(props) {
                 {suggestion}
               </div>
             </div>
-          )
+          );
           break;
         case 'Send Invoice':
           suggestions.push(
             <div className="utterance-suggestion" key={index}>
               <div
-                className="utterance-suggestion-content"
+                className="utterance-suggestion-content utterance-suggestion-content-action"
                 onClick={() => {
                   setModal('INVOICE');
                   clearSuggestedActions();
@@ -82,13 +86,13 @@ function MessagesPane(props) {
                 {suggestion}
               </div>
             </div>
-          )
+          );
           break;
         case 'Issue Refund':
           suggestions.push(
             <div className="utterance-suggestion" key={index}>
               <div
-                className="utterance-suggestion-content"
+                className="utterance-suggestion-content utterance-suggestion-content-action"
                 onClick={() => {
                   setModal('REFUND');
                   clearSuggestedActions();
@@ -100,13 +104,13 @@ function MessagesPane(props) {
                 {suggestion}
               </div>
             </div>
-          )
+          );
           break;
         case 'Send Photo':
           suggestions.push(
             <div className="utterance-suggestion" key={index}>
               <div
-                className="utterance-suggestion-content"
+                className="utterance-suggestion-content utterance-suggestion-content-action"
                 onClick={() => {
                   sendMessage('', 'merchant', { event: 'PHOTO' });
                   clearSuggestedActions();
@@ -118,15 +122,18 @@ function MessagesPane(props) {
                 {suggestion}
               </div>
             </div>
-          )
+          );
           break;
         case 'Send Booking Site':
           suggestions.push(
             <div className="utterance-suggestion" key={index}>
               <div
-                className="utterance-suggestion-content"
+                className="utterance-suggestion-content utterance-suggestion-content-action"
                 onClick={() => {
-                  sendMessage('Book an appointment with us https://sq.appt.com/booking/FJ219DW', 'merchant');
+                  sendMessage(
+                    'Book an appointment with us https://sq.appt.com/booking/FJ219DW',
+                    'merchant'
+                  );
                   clearSuggestedActions();
                 }}
               >
@@ -136,13 +143,13 @@ function MessagesPane(props) {
                 {suggestion}
               </div>
             </div>
-          )
+          );
           break;
-          case 'Create Appointment':
+        case 'Create Appointment':
           suggestions.push(
             <div className="utterance-suggestion" key={index}>
               <div
-                className="utterance-suggestion-content"
+                className="utterance-suggestion-content utterance-suggestion-content-action"
                 onClick={() => {
                   setModal('APPOINTMENT');
                   clearSuggestedActions();
@@ -154,7 +161,25 @@ function MessagesPane(props) {
                 {suggestion}
               </div>
             </div>
-          )
+          );
+          break;
+        case 'Send Coupon':
+          suggestions.push(
+            <div className="utterance-suggestion" key={index}>
+              <div
+                className="utterance-suggestion-content utterance-suggestion-content-action"
+                onClick={() => {
+                  setModal('COUPON');
+                  clearSuggestedActions();
+                }}
+              >
+                <div className="suggestion-icon">
+                  <CouponIcon />
+                </div>
+                {suggestion}
+              </div>
+            </div>
+          );
           break;
         default:
       }
@@ -173,14 +198,12 @@ function MessagesPane(props) {
             {autoReply}
           </div>
         </div>
-      )
+      );
     }
 
     suggestionComponent = (
       <div className="row-user row-suggestion">
-        <div className="row-suggestion-heading">
-          {suggestionHeading}
-        </div>
+        <div className="row-suggestion-heading">{suggestionHeading}</div>
         {suggestions}
       </div>
     );
@@ -188,36 +211,41 @@ function MessagesPane(props) {
 
   return (
     <div className="MessagesPane">
-      <div className="header">
-        John Doe
-      </div>
+      <div className="header">John Doe</div>
       <div className="body" ref={bodyRef}>
         <div className="body-content">
           {conversation.map((utterance, index) => {
             let displayPic = null;
             if (utterance.speaker === 'customer') {
-              displayPic = (
-                <div className="picture">
-                  JD
-                </div>
-              );
+              displayPic = <div className="picture">JD</div>;
             }
             let content = null;
             if (utterance.metadata) {
               content = <EventCard event={utterance.metadata.event} />;
             } else {
               content = (
-                <div className={utterance.speaker === 'merchant' ? 'utterance-user' : 'utterance-other'}>
+                <div
+                  className={
+                    utterance.speaker === 'merchant'
+                      ? 'utterance-user'
+                      : 'utterance-other'
+                  }
+                >
                   {utterance.text}
                 </div>
               );
             }
             return (
-              <div className={utterance.speaker === 'merchant' ? 'row-user' : 'row-other'} key={index}>
+              <div
+                className={
+                  utterance.speaker === 'merchant' ? 'row-user' : 'row-other'
+                }
+                key={index}
+              >
                 {displayPic}
                 {content}
               </div>
-            )
+            );
           })}
           {suggestionComponent}
         </div>
@@ -239,10 +267,14 @@ function MessagesPane(props) {
         : null*/}
         <MessageInput
           value={message}
-          prediction={message !== '' && autoComplete.startsWith(message) ? autoComplete : ''}
+          prediction={
+            message !== '' && autoComplete.startsWith(message)
+              ? autoComplete
+              : ''
+          }
           fetchAutoComplete={fetchAutoComplete}
           placeholder="Send via text"
-          onChange={e => setMessage(e.target.value)}
+          onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();

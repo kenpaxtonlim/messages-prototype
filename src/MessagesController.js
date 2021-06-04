@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 
 export default class MessagesController {
   conversation = [];
@@ -53,7 +53,7 @@ export default class MessagesController {
   }
 
   sendMessage = (text, speaker, metadata) => {
-    this.conversation = [ ...this.conversation, {text, speaker, metadata} ];
+    this.conversation = [...this.conversation, { text, speaker, metadata }];
     if (metadata?.event) {
       this.mostRecentAction = metadata.event;
     }
@@ -67,10 +67,10 @@ export default class MessagesController {
         this.fetchAutoReply(text, true);
       }
     }
-  }
+  };
 
   sendAction = () => {
-    switch(this.modalMode) {
+    switch (this.modalMode) {
       case 'INVOICE':
         this.sendMessage(
           'Square has requested a $100 invoice. View it at https://sq.invoice.com/QK12D10E',
@@ -79,7 +79,7 @@ export default class MessagesController {
             event: this.modalMode,
           }
         );
-      break;
+        break;
       case 'PAYMENT':
         this.sendMessage(
           'Square has requested a payment of $100. View it at https://sq.checkout.com/QK12D10E',
@@ -107,11 +107,20 @@ export default class MessagesController {
           }
         );
         break;
+      case 'COUPON':
+        this.sendMessage(
+          'Square sent you a coupon for $10 off. Use code: 123 456 https://sq.rewards.com/QK12D10E',
+          'merchant',
+          {
+            event: this.modalMode,
+          }
+        );
+        break;
       default:
     }
 
     this.modalMode = 'NONE';
-  }
+  };
 
   fetchAutoReply = (customerInput, skipAutoReply) => {
     this.suggestedActions = [];
@@ -127,40 +136,64 @@ export default class MessagesController {
           mode: 'auto-reply',
         }),
       })
-      .then(resp => resp.json())
-      .then(data => {
-        const predictions = data.result.prediction;
-        if (predictions && predictions.length > 0) {
-          this.autoReply = predictions[0];
-        }
-      });
+        .then((resp) => resp.json())
+        .then((data) => {
+          const predictions = data.result.prediction;
+          if (predictions && predictions.length > 0) {
+            this.autoReply = predictions[0];
+          }
+        });
     }
     if (this.isSuggestAction) {
       const inputLowercase = customerInput.toLowerCase();
-      if ((inputLowercase.search(/\$/g) !== -1 || inputLowercase.search('payment') !== -1) && this.mostRecentAction !== 'PAYMENT') {
+      if (
+        (inputLowercase.search(/\$/g) !== -1 ||
+          inputLowercase.search('payment') !== -1) &&
+        this.mostRecentAction !== 'PAYMENT'
+      ) {
         this.suggestedActions.push('Request Payment');
       }
-      if (inputLowercase.search('invoice') !== -1 && this.mostRecentAction !== 'INVOICE') {
+      if (
+        inputLowercase.search('invoice') !== -1 &&
+        this.mostRecentAction !== 'INVOICE'
+      ) {
         this.suggestedActions.push('Send Invoice');
       }
-      if (inputLowercase.search('refund') !== -1  && this.mostRecentAction !== 'REFUND') {
+      if (
+        inputLowercase.search('refund') !== -1 &&
+        this.mostRecentAction !== 'REFUND'
+      ) {
         this.suggestedActions.push('Issue Refund');
+        this.suggestedActions.push('Send Coupon');
       }
-      if (inputLowercase.search('photo') !== -1 && this.mostRecentAction !== 'PHOTO') {
+      if (
+        inputLowercase.search('photo') !== -1 &&
+        this.mostRecentAction !== 'PHOTO'
+      ) {
         this.suggestedActions.push('Send Photo');
       }
-      if (inputLowercase.search('appointment') !== -1 && this.mostRecentAction !== 'APPOINTMENT') {
+      if (
+        inputLowercase.search('appointment') !== -1 &&
+        this.mostRecentAction !== 'APPOINTMENT'
+      ) {
         this.suggestedActions.push('Send Booking Site');
         this.suggestedActions.push('Create Appointment');
       }
+      if (
+        inputLowercase.search('coupon') !== -1 &&
+        this.mostRecentAction !== 'COUPON'
+      ) {
+        this.suggestedActions.push('Send Coupon');
+      }
     }
-  }
+  };
 
   fetchAutoComplete = (merchantInput) => {
     if (this.isAutoComplete) {
       let previousCustomerUtterance = '';
       if (this.conversation.length > 0) {
-        const previousUtterance = this.conversation[this.conversation.length - 1];
+        const previousUtterance =
+          this.conversation[this.conversation.length - 1];
         if (previousUtterance.speaker === 'customer') {
           previousCustomerUtterance = previousUtterance.text;
         }
@@ -179,50 +212,73 @@ export default class MessagesController {
           use_trie: true,
         }),
       })
-      .then(resp => resp.json())
-      .then(data => {
-        const predictions = data.result.prediction;
-        if (predictions && predictions.length > 0) {
-          this.autoComplete = predictions[0];
-        }
-      });
+        .then((resp) => resp.json())
+        .then((data) => {
+          const predictions = data.result.prediction;
+          if (predictions && predictions.length > 0) {
+            this.autoComplete = predictions[0];
+          }
+        });
     }
     if (this.isSuggestAction) {
       this.suggestedActions = [];
       const inputLowercase = merchantInput.toLowerCase();
-      if ((inputLowercase.search(/\$/g) !== -1 || inputLowercase.search('payment') !== -1) && this.mostRecentAction !== 'PAYMENT') {
+      if (
+        (inputLowercase.search(/\$/g) !== -1 ||
+          inputLowercase.search('payment') !== -1) &&
+        this.mostRecentAction !== 'PAYMENT'
+      ) {
         this.suggestedActions.push('Request Payment');
       }
-      if (inputLowercase.search('invoice') !== -1 && this.mostRecentAction !== 'INVOICE') {
+      if (
+        inputLowercase.search('invoice') !== -1 &&
+        this.mostRecentAction !== 'INVOICE'
+      ) {
         this.suggestedActions.push('Send Invoice');
       }
-      if (inputLowercase.search('refund') !== -1  && this.mostRecentAction !== 'REFUND') {
+      if (
+        inputLowercase.search('refund') !== -1 &&
+        this.mostRecentAction !== 'REFUND'
+      ) {
         this.suggestedActions.push('Issue Refund');
+        this.suggestedActions.push('Send Coupon');
       }
-      if (inputLowercase.search('photo') !== -1 && this.mostRecentAction !== 'PHOTO') {
+      if (
+        inputLowercase.search('photo') !== -1 &&
+        this.mostRecentAction !== 'PHOTO'
+      ) {
         this.suggestedActions.push('Send Photo');
       }
-      if (inputLowercase.search('appointment') !== -1 && this.mostRecentAction !== 'APPOINTMENT') {
+      if (
+        inputLowercase.search('appointment') !== -1 &&
+        this.mostRecentAction !== 'APPOINTMENT'
+      ) {
         this.suggestedActions.push('Send Booking Site');
         this.suggestedActions.push('Create Appointment');
       }
+      if (
+        inputLowercase.search('coupon') !== -1 &&
+        this.mostRecentAction !== 'COUPON'
+      ) {
+        this.suggestedActions.push('Send Coupon');
+      }
     }
-  }
+  };
 
   clearAutoReply = () => {
     this.autoReply = '';
-  }
+  };
 
   clearAutoComplete = () => {
     this.autoComplete = '';
-  }
+  };
 
   clearSuggestedActions = () => {
     this.suggestedActions = [];
     this.autoReply = '';
-  }
+  };
 
   setModal = (modal) => {
     this.modalMode = modal;
-  }
+  };
 }
