@@ -160,7 +160,7 @@ export default class MessagesController {
     if (this.isSuggestAction) {
       this.getSuggestedActions(customerInput);
     }
-    if (this.setIsSuggestLink) {
+    if (this.isSuggestLink) {
       this.getSuggestedLinks(customerInput);
     }
   };
@@ -200,7 +200,7 @@ export default class MessagesController {
     if (this.isSuggestAction) {
       this.getSuggestedActions(merchantInput);
     }
-    if (this.setIsSuggestLink) {
+    if (this.isSuggestLink) {
       this.getSuggestedLinks(merchantInput);
     }
   };
