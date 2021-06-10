@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/messages-prototype/static/css/main.9329c65f.chunk.css",
-    "main.js": "/messages-prototype/static/js/main.02a328d7.chunk.js",
-    "main.js.map": "/messages-prototype/static/js/main.02a328d7.chunk.js.map",
-    "runtime-main.js": "/messages-prototype/static/js/runtime-main.da7f9cad.js",
-    "runtime-main.js.map": "/messages-prototype/static/js/runtime-main.da7f9cad.js.map",
-    "static/js/2.14f77219.chunk.js": "/messages-prototype/static/js/2.14f77219.chunk.js",
-    "static/js/2.14f77219.chunk.js.map": "/messages-prototype/static/js/2.14f77219.chunk.js.map",
-    "static/js/3.60ad0817.chunk.js": "/messages-prototype/static/js/3.60ad0817.chunk.js",
-    "static/js/3.60ad0817.chunk.js.map": "/messages-prototype/static/js/3.60ad0817.chunk.js.map",
+    "main.css": "/messages-prototype/static/css/main.07c9faf9.chunk.css",
+    "main.js": "/messages-prototype/static/js/main.e66bbb9a.chunk.js",
+    "main.js.map": "/messages-prototype/static/js/main.e66bbb9a.chunk.js.map",
+    "runtime-main.js": "/messages-prototype/static/js/runtime-main.e8f4406e.js",
+    "runtime-main.js.map": "/messages-prototype/static/js/runtime-main.e8f4406e.js.map",
+    "static/js/2.a5af3f81.chunk.js": "/messages-prototype/static/js/2.a5af3f81.chunk.js",
+    "static/js/2.a5af3f81.chunk.js.map": "/messages-prototype/static/js/2.a5af3f81.chunk.js.map",
+    "static/js/3.0040c5ea.chunk.js": "/messages-prototype/static/js/3.0040c5ea.chunk.js",
+    "static/js/3.0040c5ea.chunk.js.map": "/messages-prototype/static/js/3.0040c5ea.chunk.js.map",
     "index.html": "/messages-prototype/index.html",
-    "static/css/main.9329c65f.chunk.css.map": "/messages-prototype/static/css/main.9329c65f.chunk.css.map",
-    "static/js/2.14f77219.chunk.js.LICENSE.txt": "/messages-prototype/static/js/2.14f77219.chunk.js.LICENSE.txt",
+    "static/css/main.07c9faf9.chunk.css.map": "/messages-prototype/static/css/main.07c9faf9.chunk.css.map",
+    "static/js/2.a5af3f81.chunk.js.LICENSE.txt": "/messages-prototype/static/js/2.a5af3f81.chunk.js.LICENSE.txt",
     "static/media/iphone.d3f4ec0d.png": "/messages-prototype/static/media/iphone.d3f4ec0d.png",
     "static/media/square.2d24f7b0.png": "/messages-prototype/static/media/square.2d24f7b0.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.da7f9cad.js",
-    "static/js/2.14f77219.chunk.js",
-    "static/css/main.9329c65f.chunk.css",
-    "static/js/main.02a328d7.chunk.js"
+    "static/js/runtime-main.e8f4406e.js",
+    "static/js/2.a5af3f81.chunk.js",
+    "static/css/main.07c9faf9.chunk.css",
+    "static/js/main.e66bbb9a.chunk.js"
   ]
 }
