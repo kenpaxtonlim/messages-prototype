@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react';
 import phone from './iphone.png';
 import square from './square.png';
 import './CustomerPane.scss';
 import EventCard from '../EventCard/EventCard';
 
 function CustomerPane(props) {
-  const { conversation, sendMessage } = props;
+  const { controller } = props;
+  const { conversation, sendMessage } = controller;
   const [message, setMessage] = useState('');
 
   const bodyRef = useRef();
@@ -15,7 +16,7 @@ function CustomerPane(props) {
       bodyRef.current.scroll({
         behavior: 'smooth',
         left: 0,
-        top: bodyRef.current.scrollHeight
+        top: bodyRef.current.scrollHeight,
       });
     }
   }, [conversation]);
@@ -42,8 +43,15 @@ function CustomerPane(props) {
                 );
               } else {
                 content = (
-                  <div className={utterance.speaker === 'customer' ? 'utterance-user' : 'utterance-other'} key={index}>
-                  {utterance.text}
+                  <div
+                    className={
+                      utterance.speaker === 'customer'
+                        ? 'utterance-user'
+                        : 'utterance-other'
+                    }
+                    key={index}
+                  >
+                    {utterance.text}
                   </div>
                 );
               }
@@ -55,7 +63,7 @@ function CustomerPane(props) {
           <input
             className="input"
             value={message}
-            onChange={e => setMessage(e.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="Text message"
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {

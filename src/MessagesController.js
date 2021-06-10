@@ -5,8 +5,10 @@ export default class MessagesController {
   autoReply = '';
   autoComplete = '';
   suggestedActions = [];
+  suggestedLinks = [];
   mostRecentAction = 'NONE';
   modalMode = 'NONE';
+  isSettingsOpen = false;
 
   isAutoReply = true;
   isAutoComplete = true;
@@ -122,8 +124,19 @@ export default class MessagesController {
     this.modalMode = 'NONE';
   };
 
+  sendLink = (link) => {
+    this.sendMessage(
+      `${link.name} for ${link.price}. Purchase at https://sq.checkout.com/QK12D10E`,
+      'merchant',
+      {
+        event: 'LINK',
+        link,
+      }
+    );
+    this.suggestedLinks = [];
+  };
+
   fetchAutoReply = (customerInput, skipAutoReply) => {
-    this.suggestedActions = [];
     if (this.isAutoReply && !skipAutoReply) {
       fetch('https://corgi.mysquarephone.com/post/auto_complete_service', {
         method: 'POST',
@@ -145,46 +158,10 @@ export default class MessagesController {
         });
     }
     if (this.isSuggestAction) {
-      const inputLowercase = customerInput.toLowerCase();
-      if (
-        (inputLowercase.search(/\$/g) !== -1 ||
-          inputLowercase.search('payment') !== -1) &&
-        this.mostRecentAction !== 'PAYMENT'
-      ) {
-        this.suggestedActions.push('Request Payment');
-      }
-      if (
-        inputLowercase.search('invoice') !== -1 &&
-        this.mostRecentAction !== 'INVOICE'
-      ) {
-        this.suggestedActions.push('Send Invoice');
-      }
-      if (
-        inputLowercase.search('refund') !== -1 &&
-        this.mostRecentAction !== 'REFUND'
-      ) {
-        this.suggestedActions.push('Issue Refund');
-        this.suggestedActions.push('Send Coupon');
-      }
-      if (
-        inputLowercase.search('photo') !== -1 &&
-        this.mostRecentAction !== 'PHOTO'
-      ) {
-        this.suggestedActions.push('Send Photo');
-      }
-      if (
-        inputLowercase.search('appointment') !== -1 &&
-        this.mostRecentAction !== 'APPOINTMENT'
-      ) {
-        this.suggestedActions.push('Send Booking Site');
-        this.suggestedActions.push('Create Appointment');
-      }
-      if (
-        inputLowercase.search('coupon') !== -1 &&
-        this.mostRecentAction !== 'COUPON'
-      ) {
-        this.suggestedActions.push('Send Coupon');
-      }
+      this.getSuggestedActions(customerInput);
+    }
+    if (this.setIsSuggestLink) {
+      this.getSuggestedLinks(customerInput);
     }
   };
 
@@ -221,47 +198,76 @@ export default class MessagesController {
         });
     }
     if (this.isSuggestAction) {
-      this.suggestedActions = [];
-      const inputLowercase = merchantInput.toLowerCase();
-      if (
-        (inputLowercase.search(/\$/g) !== -1 ||
-          inputLowercase.search('payment') !== -1) &&
-        this.mostRecentAction !== 'PAYMENT'
-      ) {
-        this.suggestedActions.push('Request Payment');
-      }
-      if (
-        inputLowercase.search('invoice') !== -1 &&
-        this.mostRecentAction !== 'INVOICE'
-      ) {
-        this.suggestedActions.push('Send Invoice');
-      }
-      if (
-        inputLowercase.search('refund') !== -1 &&
-        this.mostRecentAction !== 'REFUND'
-      ) {
-        this.suggestedActions.push('Issue Refund');
-        this.suggestedActions.push('Send Coupon');
-      }
-      if (
-        inputLowercase.search('photo') !== -1 &&
-        this.mostRecentAction !== 'PHOTO'
-      ) {
-        this.suggestedActions.push('Send Photo');
-      }
-      if (
-        inputLowercase.search('appointment') !== -1 &&
-        this.mostRecentAction !== 'APPOINTMENT'
-      ) {
-        this.suggestedActions.push('Send Booking Site');
-        this.suggestedActions.push('Create Appointment');
-      }
-      if (
-        inputLowercase.search('coupon') !== -1 &&
-        this.mostRecentAction !== 'COUPON'
-      ) {
-        this.suggestedActions.push('Send Coupon');
-      }
+      this.getSuggestedActions(merchantInput);
+    }
+    if (this.setIsSuggestLink) {
+      this.getSuggestedLinks(merchantInput);
+    }
+  };
+
+  getSuggestedActions = (input) => {
+    this.suggestedActions = [];
+    const inputLowercase = input.toLowerCase();
+    if (
+      (inputLowercase.search(/\$/g) !== -1 ||
+        inputLowercase.search('payment') !== -1) &&
+      this.mostRecentAction !== 'PAYMENT'
+    ) {
+      this.suggestedActions.push('Request Payment');
+    }
+    if (
+      inputLowercase.search('invoice') !== -1 &&
+      this.mostRecentAction !== 'INVOICE'
+    ) {
+      this.suggestedActions.push('Send Invoice');
+    }
+    if (
+      inputLowercase.search('refund') !== -1 &&
+      this.mostRecentAction !== 'REFUND'
+    ) {
+      this.suggestedActions.push('Issue Refund');
+      this.suggestedActions.push('Send Coupon');
+    }
+    if (
+      inputLowercase.search('photo') !== -1 &&
+      this.mostRecentAction !== 'PHOTO'
+    ) {
+      this.suggestedActions.push('Send Photo');
+    }
+    if (
+      inputLowercase.search('appointment') !== -1 &&
+      this.mostRecentAction !== 'APPOINTMENT'
+    ) {
+      this.suggestedActions.push('Send Booking Site');
+      this.suggestedActions.push('Create Appointment');
+    }
+    if (
+      inputLowercase.search('coupon') !== -1 &&
+      this.mostRecentAction !== 'COUPON'
+    ) {
+      this.suggestedActions.push('Send Coupon');
+    }
+  };
+
+  getSuggestedLinks = (input) => {
+    this.suggestedLinks = [];
+    const inputLowercase = input.toLowerCase();
+    if (inputLowercase.search('hair') !== -1) {
+      this.suggestedLinks.push({
+        name: 'Hydrating Shampoo',
+        brand: 'Herbal Essences',
+        price: '$27.00',
+      });
+      this.suggestedLinks.push({
+        name: 'Hydrating Conditioner',
+        brand: 'Revlon',
+        price: '$25.00',
+      });
+      this.suggestedLinks.push({
+        name: 'Curl Cream',
+        brand: 'Tresime',
+        price: '$19.00',
+      });
     }
   };
 
@@ -281,4 +287,28 @@ export default class MessagesController {
   setModal = (modal) => {
     this.modalMode = modal;
   };
+
+  openSettings = () => {
+    this.isSettingsOpen = true;
+  };
+
+  closeSettings = () => {
+    this.isSettingsOpen = false;
+  };
+
+  setIsAutoReply(isAutoReply) {
+    this.isAutoReply = isAutoReply;
+  }
+
+  setIsAutoComplete(isAutoComplete) {
+    this.isAutoComplete = isAutoComplete;
+  }
+
+  setIsSuggestAction(isSuggestAction) {
+    this.isSuggestAction = isSuggestAction;
+  }
+
+  setIsSuggestLink(isSuggestLink) {
+    this.isSuggestLink = isSuggestLink;
+  }
 }

@@ -1,0 +1,41 @@
+.SettingsSheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: white;
+}
+
+.SettingsSheet-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid lightgray;
+  padding: 20px;
+}
+
+.SettingsSheet-body {
+  padding: 50px;
+
+  & > * {
+    margin-bottom: 15px;
+  }
+}
+
+.SettingsSheet-x {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  border-radius: 5px;
+  width: 47px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.SettingsSheet-title {
+  font-size: 24px;
+  font-weight: bold;
+}

@@ -9,8 +9,11 @@ import PhotoIcon from '../svg/PhotoIcon';
 import RefundIcon from '../svg/RefundIcon';
 import EventCard from '../EventCard/EventCard';
 import CouponIcon from '../svg/CouponIcon';
+import SettingsIcon from '../svg/SettingsIcon';
+import LinkCard from '../LinkCard/LinkCard';
 
 function MessagesPane(props) {
+  const { controller } = props;
   const {
     conversation,
     sendMessage,
@@ -21,7 +24,10 @@ function MessagesPane(props) {
     suggestedActions,
     clearSuggestedActions,
     setModal,
-  } = props;
+    openSettings,
+    suggestedLinks,
+    sendLink,
+  } = controller;
   const [message, setMessage] = useState('');
 
   const bodyRef = useRef();
@@ -48,7 +54,25 @@ function MessagesPane(props) {
   }
 
   let suggestionComponent = null;
-  if (autoReply !== '' || suggestedActions.length !== 0) {
+  if (suggestedLinks.length > 0) {
+    const suggestionHeading =
+      suggestedLinks.length > 1 ? 'Suggested Links' : 'Suggested Link';
+    suggestionComponent = (
+      <div className="row-user row-suggestion">
+        <div className="row-suggestion-heading">{suggestionHeading}</div>
+        <div className="row-suggestion-links">
+          {suggestedLinks.map((link) => (
+            <LinkCard
+              name={link.name}
+              brand={link.brand}
+              price={link.price}
+              sendLink={() => sendLink(link)}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  } else if (autoReply !== '' || suggestedActions.length !== 0) {
     let suggestions = [];
     suggestedActions.forEach((suggestion, index) => {
       switch (suggestion) {
@@ -211,7 +235,13 @@ function MessagesPane(props) {
 
   return (
     <div className="MessagesPane">
-      <div className="header">John Doe</div>
+      <div className="header">
+        <div />
+        John Doe
+        <div className="header-right" onClick={() => openSettings()}>
+          <SettingsIcon />
+        </div>
+      </div>
       <div className="body" ref={bodyRef}>
         <div className="body-content">
           {conversation.map((utterance, index) => {
@@ -221,7 +251,7 @@ function MessagesPane(props) {
             }
             let content = null;
             if (utterance.metadata) {
-              content = <EventCard event={utterance.metadata.event} />;
+              content = <EventCard metadata={utterance.metadata} />;
             } else {
               content = (
                 <div
